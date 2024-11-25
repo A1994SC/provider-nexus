@@ -4,8 +4,8 @@
 PROJECT_NAME ?= provider-nexus
 PROJECT_REPO ?= github.com/a1994sc/$(PROJECT_NAME)
 
-# renovate: datasource=github-releases depName=hashicorp/terraform versioning=hashicorp
-export TERRAFORM_VERSION ?= 1.9.8
+# renovate: datasource=github-releases depName=opentofu/opentofu versioning=hashicorp
+export TERRAFORM_VERSION ?= 1.8.6
 
 # renovate: datasource=github-releases depName=datadrivers/terraform-provider-nexus versioning=hashicorp
 export TERRAFORM_PROVIDER_VERSION ?= 2.5.0
@@ -102,16 +102,16 @@ build.init: $(UP)
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
-TERRAFORM := $(TOOLS_HOST_DIR)/terraform-$(TERRAFORM_VERSION)
+TERRAFORM := $(TOOLS_HOST_DIR)/tofu-$(TERRAFORM_VERSION)
 TERRAFORM_WORKDIR := $(WORK_DIR)/terraform
 TERRAFORM_PROVIDER_SCHEMA := config/schema.json
 
 $(TERRAFORM):
 	@$(INFO) installing terraform $(HOSTOS)-$(HOSTARCH)
 	@mkdir -p $(TOOLS_HOST_DIR)/tmp-terraform
-	@curl -fsSL https://releases.hashicorp.com/terraform/$(TERRAFORM_VERSION)/terraform_$(TERRAFORM_VERSION)_$(SAFEHOST_PLATFORM).zip -o $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip
+	@curl -fsSL https://github.com/opentofu/opentofu/releases/download/v$(TERRAFORM_VERSION)/tofu_$(TERRAFORM_VERSION)_$(SAFEHOST_PLATFORM).zip -o $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip
 	@unzip $(TOOLS_HOST_DIR)/tmp-terraform/terraform.zip -d $(TOOLS_HOST_DIR)/tmp-terraform
-	@mv $(TOOLS_HOST_DIR)/tmp-terraform/terraform $(TERRAFORM)
+	@mv $(TOOLS_HOST_DIR)/tmp-terraform/tofu $(TERRAFORM)
 	@rm -fr $(TOOLS_HOST_DIR)/tmp-terraform
 	@$(OK) installing terraform $(HOSTOS)-$(HOSTARCH)
 
